@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Careers Page Builder
 
-## Getting Started
+A full-stack application that enables companies to create branded careers pages and allows candidates to browse open positions.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📌 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### For Recruiters
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Branding Editor**: Customize company name, description, colors, logo, banner, and culture video.
+* **Section Manager**: Add, edit, delete, and toggle visibility of content sections (About Us, Values, Benefits, etc.).
+* **Live Preview**: See how the careers page looks before publishing with desktop/tablet/mobile views.
+* **Shareable Link**: Get a public URL to share with candidates.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### For Candidates
 
-## Learn More
+* **Company Information**: Learn about the company culture and values.
+* **Job Listings**: Browse all open positions.
+* **Search & Filters**: Find jobs by title, location, work policy, department.
+* **Mobile-Friendly**: Fully responsive design.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 14 (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS |
+| **UI Components** | Shadcn/ui + Radix UI |
+| **Database** | PostgreSQL (Neon) |
+| **ORM** | Prisma |
+| **Authentication** | NextAuth.js |
+| **Deployment** | Vercel |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Getting Started
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+
+* Node.js 18+
+* npm or yarn
+* PostgreSQL database (or use SQLite for local dev)
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/royaals/careers-page-builder.git
+    cd careers-page-builder
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up environment variables**
+    ```bash
+    cp .env.example .env
+    ```
+    Edit `.env` with your values:
+    ```text
+    DATABASE_URL="your-database-url"
+    NEXTAUTH_SECRET="your-secret-key"
+    NEXTAUTH_URL="http://localhost:3000"
+    ```
+
+4.  **Set up the database**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
+
+5.  **Seed sample data**
+    ```bash
+    npm run db:seed
+    ```
+
+6.  **Start the development server**
+    ```bash
+    npm run dev
+    ```
+
+7.  **Open your browser**
+    ```text
+    http://localhost:3000
+    ```
+
+### Demo Credentials
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **TechCorp Recruiter** | `recruiter@techcorp.com` | `password123` |
+| **GreenLeaf Recruiter** | `hr@greenleaf.com` | `password123` |
+
+---
+
+### 🔗 Public Candidate Pages
+
+After starting the server and running the seed script, you can view the publicly accessible careers pages:
+
+* **TechCorp Careers Page:** `http://localhost:3000/techcorp/careers`
+* **GreenLeaf Careers Page:** `http://localhost:3000/greenleaf/careers`
+
+### 🔒 Recruiter Login
+
+* **Login**: Log in using the **demo credentials** above to access the dashboard and customize the pre-built pages.
+* **Register**: Create your own company page by navigating to the **registration route** (`http://localhost:3000/register`), then customize and publish your new careers page.
+
