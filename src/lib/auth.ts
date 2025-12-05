@@ -1,4 +1,3 @@
-
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
@@ -14,7 +13,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          return null;
         }
 
         const user = await prisma.user.findUnique({
@@ -23,7 +22,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.password) {
-          throw new Error("Invalid credentials");
+          return null;
         }
 
         const isPasswordValid = await compare(
@@ -32,15 +31,15 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isPasswordValid) {
-          throw new Error("Invalid credentials");
+          return null;
         }
 
         return {
           id: user.id,
           email: user.email,
-          name: user.name,
-          companyId: user.companyId,
-          companySlug: user.company?.slug,
+          name: user.name ?? undefined,
+          companyId: user.companyId ?? undefined,
+          companySlug: user.company?.slug ?? undefined,
         };
       },
     }),
@@ -48,16 +47,16 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.companyId = (user as any).companyId;
-        token.companySlug = (user as any).companySlug;
+        token.companyId = user.companyId;
+        token.companySlug = user.companySlug;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.sub;
-        (session.user as any).companyId = token.companyId;
-        (session.user as any).companySlug = token.companySlug;
+        session.user.id = token.sub!;
+        session.user.companyId = token.companyId;
+        session.user.companySlug = token.companySlug;
       }
       return session;
     },
