@@ -1,0 +1,75 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("recruiter")
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Company {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  description    String?
+  logo           String?
+  banner         String?
+  primaryColor   String    @default("#3B82F6")
+  secondaryColor String    @default("#1E40AF")
+  cultureVideo   String?
+  isPublished    Boolean   @default(false)
+  sections       Section[]
+  jobs           Job[]
+  users          User[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  type      String
+  order     Int
+  isVisible Boolean  @default(true)
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String
+  description     String?
+  workPolicy      String
+  location        String
+  department      String
+  employmentType  String
+  experienceLevel String
+  jobType         String
+  salaryRange     String?
+  postedAt        DateTime @default(now())
+  isActive        Boolean  @default(true)
+  company         Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([companyId, slug])
+}
